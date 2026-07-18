@@ -2,8 +2,8 @@ object Form1: TForm1
   Left = 0
   Top = 0
   Caption = 'Drag&Drop '#26410#23550#24540
-  ClientHeight = 480
-  ClientWidth = 640
+  ClientHeight = 896
+  ClientWidth = 1297
   FormFactor.Width = 320
   FormFactor.Height = 480
   FormFactor.Devices = [Desktop]
@@ -38,8 +38,8 @@ object Form1: TForm1
   end
   object WebBrowser1: TWebBrowser
     Align = Client
-    Size.Width = 640.000000000000000000
-    Size.Height = 480.000000000000000000
+    Size.Width = 1297.000000000000000000
+    Size.Height = 896.000000000000000000
     Size.PlatformDefault = False
     WindowsEngine = EdgeOnly
   end
@@ -67,6 +67,10 @@ object Form1: TForm1
       Category = #12501#12449#12452#12523
       Text = 'Reset'
       OnExecute = Action2Execute
+    end
+    object Action3: TAction
+      Text = 'Action3'
+      OnExecute = Action3Execute
     end
   end
 end
