@@ -1,0 +1,60 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{B6A0A216-CCDE-43F3-BB81-ACBFE0EBB05B}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="reader.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="ReaderServer.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="EpubServer.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="reader">
+        <MSBuild Projects="reader.dproj"/>
+    </Target>
+    <Target Name="reader:Clean">
+        <MSBuild Projects="reader.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="reader:Make">
+        <MSBuild Projects="reader.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="ReaderServer">
+        <MSBuild Projects="ReaderServer.dproj"/>
+    </Target>
+    <Target Name="ReaderServer:Clean">
+        <MSBuild Projects="ReaderServer.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="ReaderServer:Make">
+        <MSBuild Projects="ReaderServer.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="EpubServer">
+        <MSBuild Projects="EpubServer.dproj"/>
+    </Target>
+    <Target Name="EpubServer:Clean">
+        <MSBuild Projects="EpubServer.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="EpubServer:Make">
+        <MSBuild Projects="EpubServer.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="reader;ReaderServer;EpubServer"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="reader:Clean;ReaderServer:Clean;EpubServer:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="reader:Make;ReaderServer:Make;EpubServer:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

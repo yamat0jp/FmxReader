@@ -1,0 +1,64 @@
+object Form1: TForm1
+  Left = 0
+  Top = 0
+  Caption = 'Server'
+  ClientHeight = 480
+  ClientWidth = 640
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  DesignerMasterStyle = 0
+  object IdHTTPServer1: TIdHTTPServer
+    Active = True
+    Bindings = <>
+    DefaultPort = 5050
+    OnCommandGet = IdHTTPServer1CommandGet
+    Left = 168
+    Top = 72
+  end
+  object WebFileDispatcher1: TWebFileDispatcher
+    WebFileExtensions = <
+      item
+        MimeType = 'text/css;charset=utf-8'
+        Extensions = 'css'
+      end
+      item
+        MimeType = 'text/html;charset=utf-8'
+        Extensions = 'html;htm'
+      end
+      item
+        MimeType = 'application/javascript;charset=utf-8'
+        Extensions = 'js'
+      end
+      item
+        MimeType = 'image/jpeg'
+        Extensions = 'jpeg'
+      end
+      item
+        MimeType = 'image/png'
+        Extensions = 'png'
+      end
+      item
+        MimeType = 'application/epub+zip'
+        Extensions = 'epub'
+      end
+      item
+        MimeType = 'image/jpeg'
+        Extensions = 'jpg'
+      end>
+    WebDirectories = <
+      item
+        DirectoryAction = dirInclude
+        DirectoryMask = 'bibi\*'
+      end
+      item
+        DirectoryAction = dirInclude
+        DirectoryMask = 'bibi-bookshelf\*'
+      end>
+    RootDirectory = '.'
+    VirtualPath = '/'
+    DefaultFile = 'index.html'
+    Left = 168
+    Top = 152
+  end
+end

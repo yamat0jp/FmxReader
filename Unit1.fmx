@@ -1,0 +1,72 @@
+object Form1: TForm1
+  Left = 0
+  Top = 0
+  Caption = 'Drag&Drop '#26410#23550#24540
+  ClientHeight = 480
+  ClientWidth = 640
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  DesignerMasterStyle = 0
+  object MainMenu1: TMainMenu
+    Left = 288
+    Top = 144
+    object MenuItem4: TMenuItem
+      Text = 'Files'
+      object MenuItem1: TMenuItem
+        Action = Action1
+        Locked = True
+        ImageIndex = -1
+      end
+      object MenuItem5: TMenuItem
+        Action = Action2
+        Locked = True
+        ImageIndex = -1
+      end
+      object MenuItem2: TMenuItem
+        Locked = True
+        Text = '-'
+      end
+      object MenuItem3: TMenuItem
+        Action = FileExit1
+        Locked = True
+        ImageIndex = 43
+      end
+    end
+  end
+  object WebBrowser1: TWebBrowser
+    Align = Client
+    Size.Width = 640.000000000000000000
+    Size.Height = 480.000000000000000000
+    Size.PlatformDefault = False
+    WindowsEngine = EdgeOnly
+  end
+  object OpenDialog1: TOpenDialog
+    DefaultExt = 'epub'
+    Filter = 'epub|*.epub'
+    Left = 392
+    Top = 224
+  end
+  object ActionList1: TActionList
+    Left = 392
+    Top = 144
+    object FileExit1: TFileExit
+      Category = #12501#12449#12452#12523
+      Hint = #32066#20102'|'#12450#12503#12522#12465#12540#12471#12519#12531#12434#32066#20102#12375#12414#12377
+      ImageIndex = 43
+      ImageIndex = 43
+    end
+    object Action1: TAction
+      Category = #12501#12449#12452#12523
+      Text = 'Open'
+      OnExecute = Action1Execute
+    end
+    object Action2: TAction
+      Category = #12501#12449#12452#12523
+      Text = 'Reset'
+      OnExecute = Action2Execute
+    end
+  end
+end
