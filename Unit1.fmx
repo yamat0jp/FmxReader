@@ -16,12 +16,12 @@ object Form1: TForm1
     object MenuItem4: TMenuItem
       Text = 'Files'
       object MenuItem1: TMenuItem
-        Action = Action1
+        Action = ActionFileOpen
         Locked = True
         ImageIndex = -1
       end
       object MenuItem5: TMenuItem
-        Action = Action2
+        Action = ActionLoadBibi
         Locked = True
         ImageIndex = -1
       end
@@ -58,19 +58,19 @@ object Form1: TForm1
       ImageIndex = 43
       ImageIndex = 43
     end
-    object Action1: TAction
+    object ActionFileOpen: TAction
       Category = #12501#12449#12452#12523
       Text = 'Open'
-      OnExecute = Action1Execute
+      OnExecute = ActionFileOpenExecute
     end
-    object Action2: TAction
+    object ActionLoadBibi: TAction
       Category = #12501#12449#12452#12523
       Text = 'Reset'
-      OnExecute = Action2Execute
+      OnExecute = ActionLoadBibiExecute
     end
-    object Action3: TAction
-      Text = 'Action3'
-      OnExecute = Action3Execute
+    object ActionStartServer: TAction
+      Text = 'ActionStartServer'
+      OnExecute = ActionStartServerExecute
     end
   end
 end

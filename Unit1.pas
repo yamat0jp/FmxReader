@@ -15,23 +15,29 @@ type
     WebBrowser1: TWebBrowser;
     ActionList1: TActionList;
     FileExit1: TFileExit;
-    Action1: TAction;
+    ActionFileOpen: TAction;
     OpenDialog1: TOpenDialog;
     MenuItem1: TMenuItem;
     MenuItem2: TMenuItem;
     MenuItem3: TMenuItem;
     MenuItem4: TMenuItem;
-    Action2: TAction;
+    ActionLoadBibi: TAction;
     MenuItem5: TMenuItem;
-    Action3: TAction;
+    ActionStartServer: TAction;
     procedure FormCreate(Sender: TObject);
-    procedure Action1Execute(Sender: TObject);
-    procedure Action2Execute(Sender: TObject);
+    procedure ActionFileOpenExecute(Sender: TObject);
+    procedure ActionLoadBibiExecute(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
-    procedure Action3Execute(Sender: TObject);
+    procedure ActionStartServerExecute(Sender: TObject);
   private
+    FShort: string;
     { private êÈåæ }
     function MakeURL(const FileName: string): string;
+    procedure RestartServerIfNeeded;
+    function IsServerRunning: Boolean;
+    procedure EnsureServerRunning;
+    procedure SetShort(const Value: string);
+    property Short: string read FShort write SetShort;
   public
     { public êÈåæ }
   end;
@@ -101,36 +107,38 @@ begin
     ProcessHandle := 0;
 end;
 
-procedure TForm1.Action1Execute(Sender: TObject);
+procedure TForm1.ActionFileOpenExecute(Sender: TObject);
 begin
-  if not WaitForSingleObject(hnd, 0) = WAIT_TIMEOUT then
-  begin
-    CloseHandle(hnd);
-    Action3Execute(nil);
-  end;
+  RestartServerIfNeeded;
   if OpenDialog1.Execute then
     WebBrowser1.Navigate(MakeURL(OpenDialog1.FileName));
 end;
 
-procedure TForm1.Action2Execute(Sender: TObject);
+procedure TForm1.ActionLoadBibiExecute(Sender: TObject);
 var
   url: string;
 begin
   url := ExtractFilePath(ParamStr(0)) + 'bibi/index.html';
   WebBrowser1.Navigate(url);
+  Short := '';
 end;
 
-procedure TForm1.Action3Execute(Sender: TObject);
+procedure TForm1.ActionStartServerExecute(Sender: TObject);
 begin
   LaunchApp(ExtractFilePath(ParamStr(0)) + 'EpubServer.exe', hnd);
 end;
 
+procedure TForm1.EnsureServerRunning;
+begin
+  if not IsServerRunning then
+    ActionStartServerExecute(nil);
+end;
+
 procedure TForm1.FormCreate(Sender: TObject);
 begin
-  if not ProcessExists('EpubServer.exe') then
-    Action3Execute(nil);
+  EnsureServerRunning;
   if ParamStr(1) = '' then
-    Action2Execute(nil)
+    ActionLoadBibiExecute(nil)
   else
     WebBrowser1.Navigate(MakeURL(ParamStr(1)));
 end;
@@ -138,16 +146,47 @@ end;
 procedure TForm1.FormDestroy(Sender: TObject);
 begin
   CloseHandle(hnd);
+  Short := '';
+end;
+
+function TForm1.IsServerRunning: Boolean;
+begin
+  Result := ProcessExists('EpubServer.exe');
 end;
 
 function TForm1.MakeURL(const FileName: string): string;
 var
-  root: string;
+  root, data: string;
+  cnt: integer;
 begin
   Caption := Format(cpt, [ExtractFileName(FileName)]);
   root := ExtractFilePath(ParamStr(0));
-  TFile.Copy(FileName, root + 'bibi-bookshelf\temp.epub', True);
-  Result := 'http://localhost:5050/bibi/index.html?book=temp.epub';
+  cnt := 0;
+  data := root + 'bibi-bookshelf\temp.epub';
+  while FileExists(data) do
+  begin
+    inc(cnt);
+    data := root + Format('bibi-bookshelf\temp(%d).epub', [cnt]);
+  end;
+  Short := ExtractFileName(data);
+  TFile.Copy(FileName, data);
+  Result := 'http://localhost:5050/bibi/index.html?book=' + Short;
+end;
+
+procedure TForm1.RestartServerIfNeeded;
+begin
+  if (hnd <> 0) and (WaitForSingleObject(hnd, 0) <> WAIT_TIMEOUT) then
+  begin
+    CloseHandle(hnd);
+    ActionStartServerExecute(nil);
+  end;
+end;
+
+procedure TForm1.SetShort(const Value: string);
+begin
+  if FShort <> '' then
+    TFile.Delete(ExtractFilePath(ParamStr(0)) + 'bibi-bookshelf\' + FShort);
+  FShort := Value;
 end;
 
 end.

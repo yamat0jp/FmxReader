@@ -33,6 +33,8 @@ implementation
 
 {$R *.dfm}
 
+uses System.IOUtils;
+
 procedure TForm3.FormCreate(Sender: TObject);
 begin
   Application.ShowMainForm := false;
@@ -45,7 +47,7 @@ var
   st: TFileStream;
 begin
   // URL → 物理パスへ変換
-  LocalPath := '.' + ARequestInfo.Document;
+  LocalPath := TPath.GetFullPath('.' + ARequestInfo.Document);
 
   // ファイルが存在しない場合は 404 を返す
   if not FileExists(LocalPath) then
